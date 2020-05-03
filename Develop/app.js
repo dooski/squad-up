@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const fsPromises = require("fs").promises;
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -13,6 +14,7 @@ const render = require("./lib/htmlRenderer");
 //array for squad
 const squadArray = []
 
+squadStart()
 //squad assembly with inquirer; starts with beginBuilder that gets manager info
 function squadStart() {
     return inquirer.prompt([
@@ -59,11 +61,11 @@ function addSquad() {
             choices: ["Engineer", "Intern", "Squad assembled!"],
         },
     ])
-        .then(() => {
-            if (addSquad.memberType = "Engineer") {
-                addEngineer()
-            } else if (addSquad.memberType = "Intern") {
-                addIntern()
+        .then((answers) => {
+            if (answers.memberType === "Engineer") {
+                addEngineer();
+            } else if (answers.memberType === "Intern") {
+                addIntern();
             } else { squadComplete(); }
         }
         )
@@ -139,6 +141,9 @@ function addIntern() {
         });
 };
 
+function squadComplete() {
+    console.log(squadArray)
+}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
